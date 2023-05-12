@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\мое\\BinaryTree\\BinaryTree\\BinaryTree.csproj",
+      "projectUniqueName": "D:\\my\\BinaryTree\\BinaryTree\\BinaryTree.csproj",
       "projectName": "BinaryTree",
-      "projectPath": "D:\\мое\\BinaryTree\\BinaryTree\\BinaryTree.csproj",
+      "projectPath": "D:\\my\\BinaryTree\\BinaryTree\\BinaryTree.csproj",
       "packagesPath": "C:\\Users\\annav\\.nuget\\packages\\",
-      "outputPath": "D:\\мое\\BinaryTree\\BinaryTree\\obj\\",
+      "outputPath": "D:\\my\\BinaryTree\\BinaryTree\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\vs\\shared\\NuGetPackages"
