@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//ToString()
-//Dispose
+//удаление "висящих" узлов
 //type T
 namespace BinaryTree
 {
@@ -17,7 +16,6 @@ namespace BinaryTree
         {
             Root = new Node(root);
         }
-
         public void Add(int num)
         {
             if (Root == null)
@@ -49,8 +47,7 @@ namespace BinaryTree
                 }
             } while (!end);
         }
-
-        public Node Search(int n)
+        public Node? Search(int n)
         {
             Node? current = Root;
             while (current != null && current.Value != n)
@@ -60,7 +57,6 @@ namespace BinaryTree
             }
             return current;
         }
-
         public void Delete(Node node)
         {
             if (node == null) return;
@@ -69,7 +65,7 @@ namespace BinaryTree
                 DeleteRoot();
                 return;
             }
-            Node parent = node.Parent;
+            Node parent = node.Parent!;
             node.Parent = null;
             if (node.Left == null && node.Right == null)
             {
@@ -93,7 +89,7 @@ namespace BinaryTree
                 {
                     parent.Right = node.Right;
                 }
-                node.Right.Parent = parent;
+                node.Right!.Parent = parent;
                 node.Right = null;
                 node.Parent = null;
             }
@@ -124,14 +120,14 @@ namespace BinaryTree
         }
         private void DeleteRoot()
         {
-            if (Root.Left == null && Root.Right == null)
+            if (Root!.Left == null && Root.Right == null)
             {
                 Root = null;
             }
             else if (Root.Left == null)
             {
                 Root = Root.Right;
-                Root.Parent = null;
+                Root!.Parent = null;
             }
             else if (Root.Right == null)
             {
@@ -152,6 +148,8 @@ namespace BinaryTree
         }
         public void Preorder()
         {
+            if(Root == null) return;
+
             List<int> preorder = new List<int>();
             Node? current = Root;
             Preorder(current, preorder);
@@ -177,6 +175,8 @@ namespace BinaryTree
         }
         public void Inorder()
         {
+            if(Root == null) return;
+
             List<int> inorder = new List<int>();
             Node? current = Root;
             Inorder(current, inorder);
@@ -202,6 +202,8 @@ namespace BinaryTree
         }
         public void Postorder()
         {
+            if(Root == null) return;
+
             List<int> postorder = new List<int>();
             Node? current = Root;
             Postorder(current, postorder);
@@ -225,15 +227,43 @@ namespace BinaryTree
             }
             postorder.Add(current.Value);
         }
-        public void Print()
+        public void BFS()
         {
+            if(Root == null) return;
+
             List<List<int?>> tree = new List<List<int?>>();
             tree.Add(new List<int?>());
             Stack<Node> stack = new Stack<Node>();
-            CreateTree(stack, Root, tree);
+            CreateTree(stack, Root!, tree);
+            List<int> bfs = new List<int>();
+            foreach (List<int?> list in tree)
+            {
+                foreach (int? node in list)
+                {
+                    if (node != null) bfs.Add((int)node);
+                }
+            }
+
+            //Print
+            foreach (int node in bfs)
+            {
+                Console.Write(node + " ");
+            }
+            Console.WriteLine();
+
+        }
+
+        public override string ToString()
+        {
+            if(Root == null) return "";
+
+            List<List<int?>> tree = new List<List<int?>>();
+            tree.Add(new List<int?>());
+            Stack<Node> stack = new Stack<Node>();
+            CreateTree(stack, Root!, tree);
             tree.RemoveAt(tree.Count - 1);
             Height = tree.Count;
-            AddTabs(tree);
+            return AddTabs(tree);
         }
         private void CreateTree(Stack<Node> stack, Node current, List<List<int?>> tree)
         {
@@ -255,7 +285,7 @@ namespace BinaryTree
             else tree[stack.Count].Add(null);
             stack.Pop();
         }
-        private void AddTabs(List<List<int?>> tree)
+        private string AddTabs(List<List<int?>> tree)
         {
             List<StringBuilder> treeForPrint = new List<StringBuilder>();
             for (int i = 0; i < tree.Count; i++)
@@ -265,7 +295,6 @@ namespace BinaryTree
                 {
                     treeForPrint[i].Append(tree[i][j] + (new string('\t', (int)Math.Pow(2, Height - i))));
                 }
-
             }
 
             for (int i = 0; i < tree.Count - 1; i++)
@@ -273,18 +302,13 @@ namespace BinaryTree
                 treeForPrint[i].Insert(0, new string('\t', (int)Math.Pow(2, Height - i - 1) - 1));
             }
 
+            string s = "";
             foreach (StringBuilder stringBuilder in treeForPrint)
             {
-                Console.WriteLine(stringBuilder.ToString());
+                s += stringBuilder.ToString() + '\n';
             }
-        }
-        private void PrintStack(Stack<Node> stack)
-        {
-            foreach (Node n in stack)
-            {
-                Console.Write(n.Value + " ");
-            }
-            Console.WriteLine();
+            s=s.Remove(s.Length-1);
+            return s;
         }
     }
 
