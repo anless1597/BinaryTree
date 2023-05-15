@@ -140,7 +140,6 @@ namespace BinaryTree
                 {
                     min = min.Left;
                 }
-
                 Root.Value = min.Value;
                 Delete(min);
             }
@@ -249,9 +248,7 @@ namespace BinaryTree
                 Console.Write(node + " ");
             }
             Console.WriteLine();
-
         }
-
         public override string ToString()
         {
             if (Root == null) return "";
@@ -295,7 +292,7 @@ namespace BinaryTree
                 {
                     treeForPrint[i].Append(tree[i][j] + (new string('\t', tabCount)));
                 }
-                treeForPrint[i].Insert(0, new string('\t', (int)Math.Pow(2, Height)+ tabCount/2-1- tree[i].Count*tabCount));
+                treeForPrint[i].Insert(0, new string('\t', (int)Math.Pow(2, Height) + tabCount / 2 - 1 - tree[i].Count * tabCount));
             }
 
             string s = "";
@@ -307,7 +304,6 @@ namespace BinaryTree
             return s;
         }
     }
-
     internal class Node<T> where T : IComparable<T>
     {
         public Node<T>? Parent { get; set; } = null;
@@ -336,6 +332,5 @@ namespace BinaryTree
         {
             Console.WriteLine($"{Parent}\n{Value}\n{Left} {Right}");
         }
-
     }
 }
