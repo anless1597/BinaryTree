@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//type T
 //Dispose()?
 namespace BinaryTree
 {
@@ -14,8 +13,6 @@ namespace BinaryTree
         public BinaryTree() { }
         public BinaryTree(T root)
         {
-            // var list = new List<Nullable<T>>();
-            // list.Add(null);
             Root = new Node<T>(root);
         }
         public void Add(T num)
@@ -255,7 +252,7 @@ namespace BinaryTree
 
         }
 
-        public override string ToString() //Uncorrect work
+        public override string ToString()
         {
             if (Root == null) return "";
 
@@ -287,7 +284,7 @@ namespace BinaryTree
             else tree[stack.Count].Add(null);
             stack.Pop();
         }
-        private string AddTabs(List<List<object?>> tree) //Uncorrect work
+        private string AddTabs(List<List<object?>> tree)
         {
             List<StringBuilder> treeForPrint = new List<StringBuilder>();
             for (int i = 0; i < tree.Count; i++)
@@ -300,10 +297,6 @@ namespace BinaryTree
                 }
                 treeForPrint[i].Insert(0, new string('\t', (int)Math.Pow(2, Height)+ tabCount/2-1- tree[i].Count*tabCount));
             }
-
-            // for (int i = 0; i < tree.Count - 1; i++)
-            // {
-            // }
 
             string s = "";
             foreach (StringBuilder stringBuilder in treeForPrint)
