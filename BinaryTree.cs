@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 //Dispose()?
 namespace BinaryTree
 {
-    internal class BinaryTree<T> where T : IComparable<T> 
+    internal class BinaryTree<T> where T : IComparable<T>
     {
         public Node<T>? Root { get; set; } = null;
         public int Height { get; set; }
@@ -150,7 +150,7 @@ namespace BinaryTree
         }
         public void Preorder()
         {
-            if(Root == null) return;
+            if (Root == null) return;
 
             List<T> preorder = new List<T>();
             Node<T>? current = Root;
@@ -177,7 +177,7 @@ namespace BinaryTree
         }
         public void Inorder()
         {
-            if(Root == null) return;
+            if (Root == null) return;
 
             List<T> inorder = new List<T>();
             Node<T>? current = Root;
@@ -204,7 +204,7 @@ namespace BinaryTree
         }
         public void Postorder()
         {
-            if(Root == null) return;
+            if (Root == null) return;
 
             List<T> postorder = new List<T>();
             Node<T>? current = Root;
@@ -231,16 +231,16 @@ namespace BinaryTree
         }
         public void BFS()
         {
-            if(Root == null) return;
+            if (Root == null) return;
 
-            List<List<T?>> tree = new List<List<T?>>();
-            tree.Add(new List<T?>());
+            List<List<object?>> tree = new List<List<object?>>();
+            tree.Add(new List<object?>());
             Stack<Node<T>> stack = new Stack<Node<T>>();
             CreateTree(stack, Root!, tree);
             List<T> bfs = new List<T>();
-            foreach (List<T?> list in tree)
+            foreach (List<object?> list in tree)
             {
-                foreach (T? node in list)
+                foreach (object? node in list)
                 {
                     if (node != null) bfs.Add((T)node);
                 }
@@ -255,66 +255,67 @@ namespace BinaryTree
 
         }
 
-        public override string ToString()
+        public override string ToString() //Uncorrect work
         {
-            if(Root == null) return "";
+            if (Root == null) return "";
 
-            List<List<T?>> tree = new List<List<T?>>();
-            tree.Add(new List<T?>());
+            List<List<object?>> tree = new List<List<object?>>();
+            tree.Add(new List<object?>());
             Stack<Node<T>> stack = new Stack<Node<T>>();
             CreateTree(stack, Root!, tree);
             tree.RemoveAt(tree.Count - 1);
             Height = tree.Count;
             return AddTabs(tree);
         }
-        private void CreateTree(Stack<Node<T>> stack, Node<T> current, List<List<T?>> tree) 
+        private void CreateTree(Stack<Node<T>> stack, Node<T> current, List<List<object?>> tree)
         {
             stack.Push(current);
             if (tree.Count == stack.Count)
             {
-                tree.Add(new List<T?>());
+                tree.Add(new List<object?>());
             }
             tree[stack.Count - 1].Add(current.Value);
             if (current.Left != null)
             {
                 CreateTree(stack, current.Left, tree);
             }
-            else tree[stack.Count].Add(default(T));
+            else tree[stack.Count].Add(null);
             if (current.Right != null)
             {
                 CreateTree(stack, current.Right, tree);
             }
-            else tree[stack.Count].Add(default(T));
+            else tree[stack.Count].Add(null);
             stack.Pop();
         }
-        private string AddTabs(List<List<T?>> tree)
+        private string AddTabs(List<List<object?>> tree) //Uncorrect work
         {
             List<StringBuilder> treeForPrint = new List<StringBuilder>();
             for (int i = 0; i < tree.Count; i++)
             {
                 treeForPrint.Add(new StringBuilder());
+                int tabCount = (int)Math.Pow(2, Height - i);
                 for (int j = 0; j < tree[i].Count; j++)
                 {
-                    treeForPrint[i].Append(tree[i][j] + (new string('\t', (int)Math.Pow(2, Height - i))));
+                    treeForPrint[i].Append(tree[i][j] + (new string('\t', tabCount)));
                 }
+                treeForPrint[i].Insert(0, new string('\t', (int)Math.Pow(2, Height)+ tabCount/2-1- tree[i].Count*tabCount));
             }
 
-            for (int i = 0; i < tree.Count - 1; i++)
-            {
-                treeForPrint[i].Insert(0, new string('\t', (int)Math.Pow(2, Height - i - 1) - 1));
-            }
+            // for (int i = 0; i < tree.Count - 1; i++)
+            // {
+            // }
 
             string s = "";
             foreach (StringBuilder stringBuilder in treeForPrint)
             {
                 s += stringBuilder.ToString() + '\n';
             }
-            s=s.Remove(s.Length-1);
+            s = s.Remove(s.Length - 1);
             return s;
         }
     }
 
-    internal class Node<T> where T: IComparable<T>
+    internal class Node<T> where T : IComparable<T>
     {
         public Node<T>? Parent { get; set; } = null;
         public Node<T>? Left { get; set; } = null;
@@ -333,9 +334,15 @@ namespace BinaryTree
         {
             return Value.ToString()!;
         }
-        public int CompareTo(object? o){
-            if(o is Node<T> node) return Value.CompareTo(node.Value);
+        public int CompareTo(object? o)
+        {
+            if (o is Node<T> node) return Value.CompareTo(node.Value);
             else throw new Exception("object's types are not the same");
         }
+        public void Info()
+        {
+            Console.WriteLine($"{Parent}\n{Value}\n{Left} {Right}");
+        }
+
     }
 }
